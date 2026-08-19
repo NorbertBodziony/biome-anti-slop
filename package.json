@@ -1,28 +1,31 @@
 {
   "name": "biome-anti-slop",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
   "description": "Opinionated Biome rules for rejecting low-evidence TypeScript patterns.",
   "type": "module",
   "scripts": {
-    "check": "bun run lint && bun run test && bun run check:skill && bun run check:skill-assets && bun run check:discovery",
+    "check": "bun run lint && bun run typecheck && bun run test && bun run check:skill && bun run check:skill-bundle && bun run check:discovery",
     "lint": "biome check .",
-    "test": "node --test tests/*.test.mjs",
-    "test:rules": "node --test tests/rules.test.mjs",
-    "test:installer": "node --test tests/installer.test.mjs",
-    "sync:skill-assets": "node scripts/sync-skill-assets.mjs",
-    "check:skill-assets": "node scripts/sync-skill-assets.mjs --check",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test tests/*.test.ts",
+    "test:rules": "bun test tests/rules.test.ts",
+    "test:installer": "bun test tests/installer.test.ts",
+    "sync:skill": "bun scripts/sync-skill.ts",
+    "check:skill-bundle": "bun scripts/sync-skill.ts --check",
     "check:skill": "python3 scripts/quick_validate.py skills/biome-anti-slop",
     "check:discovery": "skills add . --list"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.9",
-    "skills": "1.5.23"
+    "@types/node": "26.2.0",
+    "skills": "1.5.23",
+    "typescript": "7.0.2"
   },
   "engines": {
     "node": ">=22.12.0"
   },
-  "packageManager": "bun@1.3.11",
+  "packageManager": "bun@1.3.14",
   "license": "MIT",
   "repository": {
     "type": "git",

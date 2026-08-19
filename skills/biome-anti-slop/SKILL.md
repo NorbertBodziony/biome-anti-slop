@@ -23,7 +23,7 @@ setup. Preserve unrelated work and adapt to the repository's package manager and
 3. From the target repository, copy the bundled rules:
 
    ```bash
-   node <skill-directory>/scripts/install.mjs
+   node <skill-directory>/scripts/install.js
    ```
 
    The default destination is `tools/biome/anti-slop`. Pass another relative destination as the
@@ -62,4 +62,3 @@ setup. Preserve unrelated work and adapt to the repository's package manager and
 
 6. Review the final diff and report the copied path, dependency change, configuration change,
    checks run, and any remaining findings.
-

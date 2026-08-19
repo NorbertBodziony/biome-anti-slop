@@ -5,7 +5,8 @@ Releases are created automatically from immutable semantic-version tags.
 ## Prepare a release
 
 1. Make sure `main` is green and up to date.
-2. Set the new semantic version in `package.json` and refresh `bun.lock` with `bun install`.
+2. Set the new semantic version in `package.json`, run `bun run sync:skill`, and refresh `bun.lock`
+   with `bun install`.
 3. Run `bun run check` and merge the version change into `main`.
 4. Create and push an annotated tag that exactly matches the package version:
 

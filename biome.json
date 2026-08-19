@@ -1,7 +1,12 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": ["**", "!skills/biome-anti-slop/assets/anti-slop", "!tests/fixtures"]
+    "includes": [
+      "**",
+      "!skills/biome-anti-slop/assets/anti-slop",
+      "!skills/biome-anti-slop/scripts",
+      "!tests/fixtures"
+    ]
   },
   "formatter": {
     "enabled": true,
