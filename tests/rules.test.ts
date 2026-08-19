@@ -14,6 +14,7 @@ const cases = {
   "no-conditional-empty-object-spread": "This conditional spread hides property omission",
   "no-known-value-widening": "This explicit broad type can discard known type evidence.",
   "no-module-mocking": "Replace module mocking with dependency injection",
+  "no-object-parameters": "This parameter uses the broad `object` type.",
   "no-reflect-apply": "Replace `Reflect.apply` with a typed function call.",
   "no-reflect-get": "Replace `Reflect.get` with typed property access.",
   "no-runtime-typeof": "A `typeof` check narrows a representation",
@@ -73,5 +74,5 @@ test("the public rule set contains exactly the documented rules", () => {
   for (const rule of actual) {
     assert.ok(documented.includes(`\`${rule}\``), `${rule} is missing from README.md`);
   }
-  assert.equal(actual.length, 11);
+  assert.equal(actual.length, 12);
 });
