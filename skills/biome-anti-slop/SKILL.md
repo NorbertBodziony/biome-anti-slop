@@ -16,9 +16,10 @@ setup. Preserve unrelated work and adapt to the repository's package manager and
    - Find `biome.json` or `biome.jsonc` files and existing anti-slop rules.
    - If multiple independent Biome roots exist, ask which one to configure.
 
-2. Require Biome 2.x. Preserve an existing Biome 2.x dependency. If Biome is absent from a package
-   manifest, install the current `@biomejs/biome` as a development dependency with the repository's
-   package manager. If the repository uses Biome 1.x, stop and ask before upgrading it.
+2. Require `@biomejs/biome` version `>=2.5.9 <3`. Preserve an existing dependency in that range. If
+   Biome is absent from a package manifest, install the latest compatible 2.x release using
+   `@biomejs/biome@^2.5.9` as a development dependency with the repository's package manager. If
+   the repository uses a version outside that range, stop and ask before changing it.
 
 3. From the target repository, copy the bundled rules:
 
@@ -58,13 +59,29 @@ setup. Preserve unrelated work and adapt to the repository's package manager and
    {
      "linter": {
        "rules": {
-         "complexity": { "noBannedTypes": "error" },
-         "style": { "noNonNullAssertion": "error" },
+         "complexity": {
+           "noBannedTypes": "error",
+           "noUselessTypeConstraint": "error"
+         },
+         "nursery": {
+           "noMisleadingReturnType": "error",
+           "noUnsafeTypeAssertion": "error",
+           "useReduceTypeParameter": "error"
+         },
+         "style": {
+           "noNonNullAssertion": "error",
+           "useAsConstAssertion": "error"
+         },
          "suspicious": { "noExplicitAny": "error" }
        }
      }
    }
    ```
+
+   Confirm all eight rule names and their current groups with the installed Biome binary before
+   editing configuration. The groups above are correct for Biome 2.5.9; if `biome explain` reports
+   that a later compatible 2.x release promoted a nursery rule, use its reported stable group. Stop
+   if any rule is unavailable rather than writing an invalid configuration.
 
    If one of these rules already uses object configuration, preserve its options and change only
    its `level` to `error`. If `linter.enabled` is explicitly `false`, stop and ask before enabling

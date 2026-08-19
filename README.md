@@ -43,12 +43,21 @@ npx skills add norbertbodziony/biome-anti-slop --list
 
 ### Native Biome rules
 
-The skill also enables these built-in rules as errors, so their mature native implementations do
-not need to be duplicated as GritQL plugins:
+The skill also enables these built-in rules as errors, so their native implementations do not need
+to be duplicated as GritQL plugins:
 
 - `complexity/noBannedTypes`
+- `complexity/noUselessTypeConstraint`
+- `nursery/noMisleadingReturnType`
+- `nursery/noUnsafeTypeAssertion`
+- `nursery/useReduceTypeParameter`
 - `style/noNonNullAssertion`
+- `style/useAsConstAssertion`
 - `suspicious/noExplicitAny`
+
+The nursery rules are intentionally strict. They reject non-const type assertions, misleadingly
+wide return types, and asserted `reduce` accumulators. Enabling the type-aware return rule activates
+Biome's scanner and type inference.
 
 ## Manual installation
 
@@ -75,10 +84,17 @@ or `biome.jsonc`:
   "linter": {
     "rules": {
       "complexity": {
-        "noBannedTypes": "error"
+        "noBannedTypes": "error",
+        "noUselessTypeConstraint": "error"
+      },
+      "nursery": {
+        "noMisleadingReturnType": "error",
+        "noUnsafeTypeAssertion": "error",
+        "useReduceTypeParameter": "error"
       },
       "style": {
-        "noNonNullAssertion": "error"
+        "noNonNullAssertion": "error",
+        "useAsConstAssertion": "error"
       },
       "suspicious": {
         "noExplicitAny": "error"
@@ -88,8 +104,8 @@ or `biome.jsonc`:
 }
 ```
 
-Biome 2.x is required. Exclude the vendored directory from routine formatting so local checks do
-not rewrite copied policy files.
+Biome `>=2.5.9 <3` is required. Exclude the vendored directory from routine formatting so local
+checks do not rewrite copied policy files.
 
 ## Development
 
