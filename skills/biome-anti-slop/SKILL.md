@@ -40,6 +40,7 @@ setup. Preserve unrelated work and adapt to the repository's package manager and
      "./tools/biome/anti-slop/rules/no-conditional-empty-object-spread.grit",
      "./tools/biome/anti-slop/rules/no-known-value-widening.grit",
      "./tools/biome/anti-slop/rules/no-module-mocking.grit",
+     "./tools/biome/anti-slop/rules/no-object-parameters.grit",
      "./tools/biome/anti-slop/rules/no-reflect-apply.grit",
      "./tools/biome/anti-slop/rules/no-reflect-get.grit",
      "./tools/biome/anti-slop/rules/no-runtime-typeof.grit",
@@ -50,7 +51,24 @@ setup. Preserve unrelated work and adapt to the repository's package manager and
    ]
    ```
 
-   Preserve every existing configuration field. Add the vendored anti-slop directory to
+   Preserve every existing configuration field. Also enable these native Biome rules at error
+   severity, merging them into their existing groups:
+
+   ```json
+   {
+     "linter": {
+       "rules": {
+         "complexity": { "noBannedTypes": "error" },
+         "style": { "noNonNullAssertion": "error" },
+         "suspicious": { "noExplicitAny": "error" }
+       }
+     }
+   }
+   ```
+
+   If one of these rules already uses object configuration, preserve its options and change only
+   its `level` to `error`. If `linter.enabled` is explicitly `false`, stop and ask before enabling
+   it. Add the vendored anti-slop directory to
    `files.includes` as a negated pattern so routine checks do not reformat vendored rules. Also add
    negated patterns for project-local agent tooling directories that actually exist, such as
    `.agents` or `.codex`; do not ignore all dot-directories. If no Biome configuration exists,

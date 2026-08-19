@@ -30,14 +30,14 @@ test("installer copies all rules to the default destination", () => {
   const repository = createRepository();
   const result = install(repository);
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(installedRules(repository).length, 11);
+  assert.equal(installedRules(repository).length, 12);
 });
 
 test("installer supports a custom relative destination", () => {
   const repository = createRepository();
   const result = install(repository, "config/biome/anti-slop");
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(installedRules(repository, "config/biome/anti-slop").length, 11);
+  assert.equal(installedRules(repository, "config/biome/anti-slop").length, 12);
 });
 
 test("installer refuses to overwrite without force", () => {
@@ -56,7 +56,7 @@ test("installer force replaces the exact destination", () => {
   const forced = install(repository, "--force");
   assert.equal(forced.status, 0, forced.stderr);
   assert.equal(existsSync(marker), false);
-  assert.equal(installedRules(repository).length, 11);
+  assert.equal(installedRules(repository).length, 12);
 });
 
 test("installer rejects destinations outside the repository", () => {

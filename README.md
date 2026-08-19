@@ -17,7 +17,8 @@ Then ask your coding agent:
 > Install biome anti-slop in this repository.
 
 The skill copies the rules into `tools/biome/anti-slop`, merges them into the existing Biome
-configuration, preserves project-specific settings, and validates the result.
+configuration, enables the native anti-slop profile, preserves project-specific settings, and
+validates the result.
 
 To inspect the skill before installing it:
 
@@ -31,6 +32,7 @@ npx skills add norbertbodziony/biome-anti-slop --list
 - `no-conditional-empty-object-spread` — rejects conditional spreads that use `{}` to omit fields.
 - `no-known-value-widening` — rejects explicit broad annotations on known values.
 - `no-module-mocking` — rejects Vitest and Jest module mocking in favor of dependency seams.
+- `no-object-parameters` — rejects the broad `object` type on function inputs.
 - `no-reflect-apply` — rejects `Reflect.apply` in favor of typed calls.
 - `no-reflect-get` — rejects `Reflect.get` in favor of typed property access.
 - `no-runtime-typeof` — requires boundary parsing instead of ad hoc `typeof` narrowing.
@@ -39,10 +41,20 @@ npx skills add norbertbodziony/biome-anti-slop --list
 - `no-unknown-type-aliases` — rejects aliases that conceal `unknown`.
 - `no-unsafe-dictionary-type` — rejects broad dictionary value contracts.
 
+### Native Biome rules
+
+The skill also enables these built-in rules as errors, so their mature native implementations do
+not need to be duplicated as GritQL plugins:
+
+- `complexity/noBannedTypes`
+- `style/noNonNullAssertion`
+- `suspicious/noExplicitAny`
+
 ## Manual installation
 
 Copy `rules/` into your repository, for example at `tools/biome/anti-slop/rules/`, then add every
-`.grit` file to the top-level `plugins` array in `biome.json` or `biome.jsonc`:
+`.grit` file to the top-level `plugins` array and enable the native anti-slop rules in `biome.json`
+or `biome.jsonc`:
 
 ```json
 {
@@ -51,6 +63,7 @@ Copy `rules/` into your repository, for example at `tools/biome/anti-slop/rules/
     "./tools/biome/anti-slop/rules/no-conditional-empty-object-spread.grit",
     "./tools/biome/anti-slop/rules/no-known-value-widening.grit",
     "./tools/biome/anti-slop/rules/no-module-mocking.grit",
+    "./tools/biome/anti-slop/rules/no-object-parameters.grit",
     "./tools/biome/anti-slop/rules/no-reflect-apply.grit",
     "./tools/biome/anti-slop/rules/no-reflect-get.grit",
     "./tools/biome/anti-slop/rules/no-runtime-typeof.grit",
@@ -58,7 +71,20 @@ Copy `rules/` into your repository, for example at `tools/biome/anti-slop/rules/
     "./tools/biome/anti-slop/rules/no-unknown-returns.grit",
     "./tools/biome/anti-slop/rules/no-unknown-type-aliases.grit",
     "./tools/biome/anti-slop/rules/no-unsafe-dictionary-type.grit"
-  ]
+  ],
+  "linter": {
+    "rules": {
+      "complexity": {
+        "noBannedTypes": "error"
+      },
+      "style": {
+        "noNonNullAssertion": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "error"
+      }
+    }
+  }
 }
 ```
 
