@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
+import { type SpawnSyncReturns, spawnSync } from "node:child_process";
 import { existsSync, mkdtempSync, readdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
@@ -7,20 +7,20 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const installer = join(root, "skills/biome-anti-slop/scripts/install.mjs");
+const installer = join(root, "skills/biome-anti-slop/scripts/install.js");
 
-function createRepository() {
+function createRepository(): string {
   return mkdtempSync(join(tmpdir(), "biome-anti-slop-install-"));
 }
 
-function install(repository, ...arguments_) {
-  return spawnSync(process.execPath, [installer, ...arguments_], {
+function install(repository: string, ...arguments_: string[]): SpawnSyncReturns<string> {
+  return spawnSync("node", [installer, ...arguments_], {
     cwd: repository,
     encoding: "utf8",
   });
 }
 
-function installedRules(repository, destination = "tools/biome/anti-slop") {
+function installedRules(repository: string, destination = "tools/biome/anti-slop"): string[] {
   return readdirSync(join(repository, destination, "rules"))
     .filter((name) => name.endsWith(".grit"))
     .sort();

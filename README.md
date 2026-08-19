@@ -70,12 +70,13 @@ not rewrite copied policy files.
 ```bash
 bun install --frozen-lockfile
 bun run check
-bun run sync:skill-assets
+bun run sync:skill
 npx skills add . --list
 ```
 
-`rules/` is canonical. CI verifies that the copy bundled with the skill stays byte-for-byte
-identical.
+The development tooling and tests use TypeScript. `src/install.ts` is the canonical installer;
+`bun run sync:skill` compiles its zero-dependency JavaScript runtime for skill users. `rules/` is
+canonical, and CI verifies that the bundled installer and rule copies stay byte-for-byte current.
 
 ## Releases
 

@@ -21,9 +21,17 @@ const cases = {
   "no-unknown-returns": "This function exposes `unknown` to its caller.",
   "no-unknown-type-aliases": "This type alias hides `unknown`.",
   "no-unsafe-dictionary-type": "This dictionary value type gives callers no concrete contract.",
-};
+} as const;
 
-function runFixture(rule, kind) {
+type Rule = keyof typeof cases;
+type FixtureKind = "accepted" | "rejected";
+
+interface FixtureResult {
+  status: number | null;
+  output: string;
+}
+
+function runFixture(rule: Rule, kind: FixtureKind): FixtureResult {
   const directory = mkdtempSync(join(tmpdir(), `biome-anti-slop-${rule}-`));
   const ruleName = `${rule}.grit`;
   cpSync(join(root, "rules", ruleName), join(directory, ruleName));
@@ -44,7 +52,7 @@ function runFixture(rule, kind) {
   };
 }
 
-for (const [rule, message] of Object.entries(cases)) {
+for (const [rule, message] of Object.entries(cases) as [Rule, string][]) {
   test(`${rule} reports its rejected fixture`, () => {
     const result = runFixture(rule, "rejected");
     assert.notEqual(result.status, 0, result.output);
