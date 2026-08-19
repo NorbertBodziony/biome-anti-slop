@@ -5,17 +5,19 @@
   "description": "Opinionated Biome rules for rejecting low-evidence TypeScript patterns.",
   "type": "module",
   "scripts": {
-    "check": "bun run lint && bun run test && bun run check:skill && bun run check:skill-assets",
+    "check": "bun run lint && bun run test && bun run check:skill && bun run check:skill-assets && bun run check:discovery",
     "lint": "biome check .",
     "test": "node --test tests/*.test.mjs",
     "test:rules": "node --test tests/rules.test.mjs",
     "test:installer": "node --test tests/installer.test.mjs",
     "sync:skill-assets": "node scripts/sync-skill-assets.mjs",
     "check:skill-assets": "node scripts/sync-skill-assets.mjs --check",
-    "check:skill": "python3 scripts/quick_validate.py skills/biome-anti-slop"
+    "check:skill": "python3 scripts/quick_validate.py skills/biome-anti-slop",
+    "check:discovery": "skills add . --list"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.9"
+    "@biomejs/biome": "2.5.9",
+    "skills": "1.5.23"
   },
   "engines": {
     "node": ">=22.12.0"

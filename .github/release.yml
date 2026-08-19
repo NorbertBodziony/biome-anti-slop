@@ -1,0 +1,15 @@
+changelog:
+  categories:
+    - title: Rules
+      labels:
+        - rules
+    - title: Skill and tooling
+      labels:
+        - skill
+        - tooling
+    - title: Dependencies
+      labels:
+        - dependencies
+    - title: Other changes
+      labels:
+        - "*"

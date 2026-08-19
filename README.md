@@ -77,7 +77,12 @@ npx skills add . --list
 `rules/` is canonical. CI verifies that the copy bundled with the skill stays byte-for-byte
 identical.
 
+## Releases
+
+Versioned releases are built from `vMAJOR.MINOR.PATCH` tags. Each release includes a source archive
+and SHA-256 checksum after the full CI suite passes. See [docs/RELEASING.md](docs/RELEASING.md) for
+the maintainer workflow.
+
 ## License
 
 MIT. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for third-party notices.
-
