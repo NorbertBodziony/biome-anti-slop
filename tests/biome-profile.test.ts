@@ -18,9 +18,20 @@ test("native anti-slop profile enables all required Biome rules as errors", () =
         linter: {
           enabled: true,
           rules: {
-            recommended: false,
-            complexity: { noBannedTypes: "error" },
-            style: { noNonNullAssertion: "error" },
+            preset: "none",
+            complexity: {
+              noBannedTypes: "error",
+              noUselessTypeConstraint: "error",
+            },
+            nursery: {
+              noMisleadingReturnType: "error",
+              noUnsafeTypeAssertion: "error",
+              useReduceTypeParameter: "error",
+            },
+            style: {
+              noNonNullAssertion: "error",
+              useAsConstAssertion: "error",
+            },
             suspicious: { noExplicitAny: "error" },
           },
         },
@@ -34,9 +45,15 @@ test("native anti-slop profile enables all required Biome rules as errors", () =
     [
       "declare const maybeName: string | undefined;",
       "const unsafeName: any = maybeName;",
+      "const assertedName = maybeName as string;",
+      'const exactStatus = "ready" as "ready";',
+      "const reducedNames = ['ready'].reduce((all, name) => [...all, name], [] as string[]);",
+      'function getStatus(ready: boolean): string { return ready ? "ready" : "waiting"; }',
+      "type Identity<Value extends unknown> = Value;",
       "type UnsafeCallback = Function;",
-      "console.log(unsafeName, maybeName!.length);",
-      "export type { UnsafeCallback };",
+      "console.log(unsafeName, assertedName, exactStatus, reducedNames, maybeName!.length);",
+      "export { getStatus };",
+      "export type { Identity, UnsafeCallback };",
     ].join("\n"),
   );
 
@@ -48,6 +65,11 @@ test("native anti-slop profile enables all required Biome rules as errors", () =
 
   assert.notEqual(result.status, 0, output);
   assert.ok(output.includes("lint/complexity/noBannedTypes"), output);
+  assert.ok(output.includes("lint/complexity/noUselessTypeConstraint"), output);
+  assert.ok(output.includes("lint/nursery/noMisleadingReturnType"), output);
+  assert.ok(output.includes("lint/nursery/noUnsafeTypeAssertion"), output);
+  assert.ok(output.includes("lint/nursery/useReduceTypeParameter"), output);
   assert.ok(output.includes("lint/style/noNonNullAssertion"), output);
+  assert.ok(output.includes("lint/style/useAsConstAssertion"), output);
   assert.ok(output.includes("lint/suspicious/noExplicitAny"), output);
 });

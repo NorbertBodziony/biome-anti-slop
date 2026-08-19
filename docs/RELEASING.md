@@ -13,8 +13,8 @@ Releases are created automatically from immutable semantic-version tags.
    ```bash
    git switch main
    git pull --ff-only
-   git tag -a v0.3.0 -m "Release v0.3.0"
-   git push origin v0.3.0
+   git tag -a v0.4.0 -m "Release v0.4.0"
+   git push origin v0.4.0
    ```
 
 The Release workflow verifies that the tag matches `package.json`, confirms that the tagged commit
