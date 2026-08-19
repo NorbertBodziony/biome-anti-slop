@@ -38,6 +38,7 @@
   "keywords": [
     "agent-skills",
     "biome",
+    "biome-plugin",
     "gritql",
     "linting",
     "typescript"
