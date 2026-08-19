@@ -1,0 +1,2 @@
+export type ExternalValue = unknown;
+
