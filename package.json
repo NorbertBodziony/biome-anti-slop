@@ -19,7 +19,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.9",
     "@types/node": "26.2.0",
-    "skills": "1.5.23",
+    "skills": "1.7.2",
     "typescript": "7.0.2"
   },
   "engines": {
